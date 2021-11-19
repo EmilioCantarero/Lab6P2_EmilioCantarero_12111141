@@ -1,14 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lab6p2_emiliocantarero_12111141;
 
-/**
- *
- * @author Emilio Cantarero
- */
+import java.util.ArrayList;
+
+
 public class Pokedex {
+    ArrayList<Pokemon> lista= new ArrayList();
+
+    public Pokedex() {
+    }
+
+    public ArrayList<Pokemon> getLista() {
+        return lista;
+    }
+
+    public void setLista(ArrayList<Pokemon> lista) {
+        this.lista = lista;
+    }
     
 }
