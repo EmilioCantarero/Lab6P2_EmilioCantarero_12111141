@@ -15,5 +15,10 @@ public class Psiquico extends Pokemon{
     public float dañoProm() {
         return 0;
     }
+
+    @Override
+    public String tipo() {
+        return "Psiquico";
+    }
     
 }

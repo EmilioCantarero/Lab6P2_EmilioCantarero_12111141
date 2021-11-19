@@ -15,5 +15,10 @@ public class Venenoso extends Pokemon{
     public float dañoProm() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String tipo() {
+        return "Venenoso";
+    }
     
 }

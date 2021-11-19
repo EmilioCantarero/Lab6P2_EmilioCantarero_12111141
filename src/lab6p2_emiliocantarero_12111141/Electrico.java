@@ -15,5 +15,11 @@ public class Electrico extends Pokemon{
     public float dañoProm() {
         return 0;
     }
+
+    @Override
+    public String tipo() {
+        return "Electrico";
+    }
+    
     
 }

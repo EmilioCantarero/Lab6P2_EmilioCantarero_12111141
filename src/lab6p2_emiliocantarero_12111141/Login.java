@@ -3,6 +3,7 @@ package lab6p2_emiliocantarero_12111141;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 
 
 public class Login extends javax.swing.JFrame {
@@ -12,16 +13,28 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        
+        grupos.add(new PokeGrupo("PokeCholos", new Date(), new Usuario("Leo", "Suarez", "Leito", "L123", new Date(100, 6, 15), Color.GREEN), ));
         this.setLocationRelativeTo(null);
         usuarios.add(new Usuario("Juan", "Perez", "Juan123", "j123", new Date(90, 3, 12), Color.BLUE));
+        usuarios.get(0).getListaP().add(new Pokedex());
+        usuarios.get(0).getListaP().add(new Pokedex());
         usuarios.get(0).getListaP().add(new Pokedex());
         usuarios.get(0).getListaP().get(0).getLista().add(new Electrico("Pikachu", "Alta", 150, 200));
         usuarios.get(0).getListaP().get(0).getLista().add(new Fantasma("Gengar", "Media", 120, 300));
         
         usuarios.add(new Usuario("Maria", "Juarez", "MaryJ", "M123", new Date(95, 5, 22), Color.pink));
         usuarios.get(1).getListaP().add(new Pokedex());
+        usuarios.get(1).getListaP().add(new Pokedex());
+        usuarios.get(1).getListaP().add(new Pokedex());
         usuarios.get(1).getListaP().get(0).getLista().add(new Electrico("Raichu", "Alta", 175, 250));
         usuarios.get(1).getListaP().get(0).getLista().add(new Fantasma("Gengar", "Media", 120, 300));
+        
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_pokegrupos.getModel();
+        for (PokeGrupo g : grupos) {
+            modelo.addElement(g);
+        }
+        cb_pokegrupos.setModel(modelo);
     }
 
     /**
@@ -57,7 +70,7 @@ public class Login extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cb_pokegrupos = new javax.swing.JComboBox<>();
         jButton5 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         tf_pokeC = new javax.swing.JTextField();
@@ -65,7 +78,7 @@ public class Login extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         tf_nPoke = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jl_miembros = new javax.swing.JList<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
@@ -228,6 +241,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel12.setText("Unirme a un Pokegrupo");
 
+        cb_pokegrupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_pokegruposActionPerformed(evt);
+            }
+        });
+
         jButton5.setText("Unirme");
 
         jLabel13.setText("Crear PokeGrupo");
@@ -240,12 +259,12 @@ public class Login extends javax.swing.JFrame {
         tf_nPoke.setBorder(null);
         tf_nPoke.setOpaque(false);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jl_miembros.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(jl_miembros);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -260,7 +279,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(tf_pokeC, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cb_pokegrupos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,7 +304,7 @@ public class Login extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_pokegrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -591,6 +610,10 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    private void cb_pokegruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_pokegruposActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_pokegruposActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -638,6 +661,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.ButtonGroup Tipo;
     private javax.swing.JFrame Usuario;
     private javax.swing.ButtonGroup Velocidad;
+    private javax.swing.JComboBox<String> cb_pokegrupos;
     private com.toedter.calendar.JDateChooser dt_fecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -646,7 +670,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -666,7 +689,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -688,6 +710,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTree jTree1;
     private javax.swing.JTextField j_usuario;
     private javax.swing.JButton jb_color;
+    private javax.swing.JList<String> jl_miembros;
     private javax.swing.JTextField tf_apellido;
     private javax.swing.JPasswordField tf_contra;
     private javax.swing.JTextField tf_contraR;

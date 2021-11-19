@@ -4,6 +4,7 @@ package lab6p2_emiliocantarero_12111141;
 public abstract class Pokemon {
     private String nombre, velocidad;
     private float daño, vida;
+    private String tipo;
 
     public Pokemon() {
     }
@@ -46,6 +47,15 @@ public abstract class Pokemon {
     public void setVida(float vida) {
         this.vida = vida;
     }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
     
     public abstract float dañoProm();
+    public abstract String tipo();
 }

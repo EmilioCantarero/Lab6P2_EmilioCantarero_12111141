@@ -58,7 +58,20 @@ public class PokeGrupo {
     }
 
     public void setTipo(String tipo) {
-        this.tipo = tipo;
+        int c=miembros.size();
+        if (c >= 1 && c<=3){
+            this.tipo = "Novato";
+        }
+        else if (c >= 4 && c<= 7){
+            this.tipo="Veterano";
+        }else{
+            this.tipo="Legendario";
+        }
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
     
     
