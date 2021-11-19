@@ -1,5 +1,9 @@
 package lab6p2_emiliocantarero_12111141;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Date;
+
 
 public class Login extends javax.swing.JFrame {
 
@@ -9,6 +13,15 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+        usuarios.add(new Usuario("Juan", "Perez", "Juan123", "j123", new Date(90, 3, 12), Color.BLUE));
+        usuarios.get(0).getListaP().add(new Pokedex());
+        usuarios.get(0).getListaP().get(0).getLista().add(new Electrico("Pikachu", "Alta", 150, 200));
+        usuarios.get(0).getListaP().get(0).getLista().add(new Fantasma("Gengar", "Media", 120, 300));
+        
+        usuarios.add(new Usuario("Maria", "Juarez", "MaryJ", "M123", new Date(95, 5, 22), Color.pink));
+        usuarios.get(1).getListaP().add(new Pokedex());
+        usuarios.get(1).getListaP().get(0).getLista().add(new Electrico("Raichu", "Alta", 175, 250));
+        usuarios.get(1).getListaP().get(0).getLista().add(new Fantasma("Gengar", "Media", 120, 300));
     }
 
     /**
@@ -36,6 +49,10 @@ public class Login extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jb_color = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        Usuario = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        j_usuario = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tf_usuario = new javax.swing.JTextField();
@@ -160,6 +177,48 @@ public class Login extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jLabel11.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        jLabel11.setText("Usuario:");
+
+        j_usuario.setOpaque(false);
+        j_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                j_usuarioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(j_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(315, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(j_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(257, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout UsuarioLayout = new javax.swing.GroupLayout(Usuario.getContentPane());
+        Usuario.getContentPane().setLayout(UsuarioLayout);
+        UsuarioLayout.setHorizontalGroup(
+            UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        UsuarioLayout.setVerticalGroup(
+            UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
@@ -173,6 +232,11 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("Usuario");
 
         jButton1.setText("Ingresar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Registrarse");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -249,6 +313,22 @@ public class Login extends javax.swing.JFrame {
         Registro.setLocationRelativeTo(this);
     }//GEN-LAST:event_jButton2MouseClicked
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        String n=tf_usuario.getText();
+        String c=tf_contra.getText();
+        
+        for (Usuario t : usuarios) {
+            if (n.equals(t.getN_Usuario()) && c.equals(t.getContraseña())){
+                j_usuario.setText(t.getNombre() + t.getApellido());
+            }
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void j_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_j_usuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_j_usuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -286,14 +366,21 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
+    
+    ArrayList<Usuario> usuarios = new ArrayList();
+    ArrayList<PokeGrupo> grupos=new ArrayList();
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame Registro;
+    private javax.swing.JFrame Usuario;
     private com.toedter.calendar.JDateChooser dt_fecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -304,6 +391,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField j_usuario;
     private javax.swing.JButton jb_color;
     private javax.swing.JTextField tf_apellido;
     private javax.swing.JPasswordField tf_contra;

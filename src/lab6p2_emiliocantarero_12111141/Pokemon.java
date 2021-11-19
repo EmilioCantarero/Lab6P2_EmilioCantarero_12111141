@@ -1,7 +1,7 @@
 package lab6p2_emiliocantarero_12111141;
 
 
-public class Pokemon {
+public abstract class Pokemon {
     private String nombre, velocidad;
     private float daño, vida;
 
@@ -47,5 +47,5 @@ public class Pokemon {
         this.vida = vida;
     }
     
-    
+    public abstract float dañoProm();
 }

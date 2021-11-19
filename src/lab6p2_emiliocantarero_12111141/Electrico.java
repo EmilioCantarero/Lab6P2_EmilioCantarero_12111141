@@ -10,5 +10,10 @@ public class Electrico extends Pokemon{
     public Electrico(String nombre, String velocidad, float daño, float vida) {
         super(nombre, velocidad, daño, vida);
     }
+
+    @Override
+    public float dañoProm() {
+        return 0;
+    }
     
 }
