@@ -10,6 +10,7 @@ public class Usuario {
     private Date fecha_nacimiento;
     private Color color_fav;
     ArrayList<Pokedex> listaP=new ArrayList();
+    private boolean grupo;
 
     public Usuario() {
     }
@@ -79,6 +80,16 @@ public class Usuario {
         this.listaP = listaP;
     }
 
+    public boolean isGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(boolean grupo) {
+        this.grupo = grupo;
+    }
+
+    
+    
     @Override
     public String toString() {
         return nombre + " " + apellido;
