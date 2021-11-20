@@ -78,6 +78,11 @@ public class Usuario {
     public void setListaP(ArrayList<Pokedex> listaP) {
         this.listaP = listaP;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }
     
     
 }

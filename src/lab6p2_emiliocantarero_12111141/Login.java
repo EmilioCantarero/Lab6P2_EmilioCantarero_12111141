@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 
 public class Login extends javax.swing.JFrame {
@@ -14,7 +20,8 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         
-        grupos.add(new PokeGrupo("PokeCholos", new Date(), new Usuario("Leo", "Suarez", "Leito", "L123", new Date(100, 6, 15), Color.GREEN), ));
+        grupos.add(new PokeGrupo("PokeCholos", new Date(), new Usuario("Leo", "Suarez", "Leito", "L123", new Date(100, 6, 15), Color.GREEN), "Novato"));
+        
         this.setLocationRelativeTo(null);
         usuarios.add(new Usuario("Juan", "Perez", "Juan123", "j123", new Date(90, 3, 12), Color.BLUE));
         usuarios.get(0).getListaP().add(new Pokedex());
@@ -30,11 +37,17 @@ public class Login extends javax.swing.JFrame {
         usuarios.get(1).getListaP().get(0).getLista().add(new Electrico("Raichu", "Alta", 175, 250));
         usuarios.get(1).getListaP().get(0).getLista().add(new Fantasma("Gengar", "Media", 120, 300));
         
+        grupos.get(0).getMiembros().add(usuarios.get(0));
+        grupos.get(0).getMiembros().add(usuarios.get(1));
+        
         DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_pokegrupos.getModel();
         for (PokeGrupo g : grupos) {
             modelo.addElement(g);
         }
         cb_pokegrupos.setModel(modelo);
+        
+        
+        
     }
 
     /**
@@ -78,10 +91,10 @@ public class Login extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         tf_nPoke = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jl_miembros = new javax.swing.JList<>();
+        lista_miembros = new javax.swing.JList<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_pokemon = new javax.swing.JTree();
         jButton7 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -124,7 +137,21 @@ public class Login extends javax.swing.JFrame {
 
         jLabel10.setText("Color Favorito");
 
+        jb_color.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_colorMouseClicked(evt);
+            }
+        });
+
         jButton4.setText("Registrarme");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton4MouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -237,10 +264,21 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
+
         jButton3.setText("Salir del PokeGrupo");
 
         jLabel12.setText("Unirme a un Pokegrupo");
 
+        cb_pokegrupos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_pokegruposItemStateChanged(evt);
+            }
+        });
         cb_pokegrupos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_pokegruposActionPerformed(evt);
@@ -248,10 +286,20 @@ public class Login extends javax.swing.JFrame {
         });
 
         jButton5.setText("Unirme");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
 
         jLabel13.setText("Crear PokeGrupo");
 
         jButton6.setText("Crear");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
 
         jLabel14.setText("Miembros de mi PokeGrupo: ");
 
@@ -259,12 +307,8 @@ public class Login extends javax.swing.JFrame {
         tf_nPoke.setBorder(null);
         tf_nPoke.setOpaque(false);
 
-        jl_miembros.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jl_miembros);
+        lista_miembros.setModel(new DefaultListModel());
+        jScrollPane1.setViewportView(lista_miembros);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -287,8 +331,8 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tf_nPoke, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 119, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -311,7 +355,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tf_pokeC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                         .addComponent(jButton6))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
@@ -320,7 +364,9 @@ public class Login extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PokeGrupo", jPanel5);
 
-        jScrollPane2.setViewportView(jTree1);
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        jt_pokemon.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane2.setViewportView(jt_pokemon);
 
         jButton7.setText("<-");
 
@@ -461,8 +507,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(j_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(j_usuario)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -573,7 +618,9 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    int cont=0;
+    
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
@@ -588,13 +635,27 @@ public class Login extends javax.swing.JFrame {
         String c=tf_contra.getText();
         
         for (Usuario t : usuarios) {
+            
             if (n.equals(t.getN_Usuario()) && c.equals(t.getContraseña())){
+                grupos.get(0).getNombre();
+                    
+                
                 this.setVisible(false);
                 Usuario.pack();
                 Usuario.setVisible(true);
                 Usuario.setLocationRelativeTo(this);
                 j_usuario.setText(t.getNombre() + " " + t.getApellido());
-            }
+                tf_nPoke.setText(grupos.get(0).getNombre());
+                DefaultListModel modelo1=(DefaultListModel)lista_miembros.getModel();
+                PokeGrupo p=(PokeGrupo)cb_pokegrupos.getSelectedItem();
+                for (Usuario m : p.getMiembros()) {
+                    modelo1.addElement(m.getNombre()+ " " + m.getApellido());
+                }
+                modelo1.addElement(p.getLider()+"(Lider)" );
+                lista_miembros.setModel(modelo1);
+                }
+        
+            cont++;
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -613,6 +674,80 @@ public class Login extends javax.swing.JFrame {
     private void cb_pokegruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_pokegruposActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_pokegruposActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        // TODO add your handling code here:
+        String n=tf_nombre.getText();
+        String u=tf_usuarioR.getText();
+        String c=tf_contraR.getText();
+        String a=tf_apellido.getText();
+        Date f=dt_fecha.getDate();
+        Color color=jb_color.getBackground();
+        
+        usuarios.add(new Usuario(n, a, u, c, f, color));
+        JOptionPane.showMessageDialog(Registro, "Registrado exitosamente");
+        Registro.setVisible(false);
+        this.setVisible(true);
+        this.setLocationRelativeTo(null);
+        
+        tf_nombre.setText("");
+        tf_usuarioR.setText("");
+        tf_contraR.setText("");
+        tf_apellido.setText("");
+        dt_fecha.setDate(null);
+        jb_color.setBackground(null);
+        
+        
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jb_colorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_colorMouseClicked
+        // TODO add your handling code here:
+        jb_color.setBackground(JColorChooser.showDialog(null, "Color Favorito", Color.yellow));
+    }//GEN-LAST:event_jb_colorMouseClicked
+
+    private void jButton4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4MouseEntered
+
+    private void cb_pokegruposItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_pokegruposItemStateChanged
+        /**if (evt.getStateChange()==2){
+            DefaultListModel modelo1=(DefaultListModel)lista_miembros.getModel();
+            PokeGrupo p=(PokeGrupo)cb_pokegrupos.getSelectedItem();
+                for (Usuario m : p.getMiembros()) {
+                    modelo1.addElement(m.getNombre()+ " " + m.getApellido());
+                }
+                modelo1.addElement(p.getLider()+"(Lider)" );
+            lista_miembros.setModel(modelo1);
+        }*/
+    }//GEN-LAST:event_cb_pokegruposItemStateChanged
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // TODO add your handling code here:
+        if (jTabbedPane1.getSelectedIndex()==1){
+            
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+        PokeGrupo p=(PokeGrupo)cb_pokegrupos.getSelectedItem();
+        p.getMiembros().add(usuarios.get(cont-1));
+        lista_miembros.removeAll();
+        DefaultListModel modelo2=(DefaultListModel)lista_miembros.getModel();
+                modelo2.addElement(usuarios.get(cont-2) + " " + "(Lider)");
+                lista_miembros.setModel(modelo2);
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        // TODO add your handling code here:
+        String nombre=tf_pokeC.getText();
+        grupos.add(new PokeGrupo(nombre, new Date(), usuarios.get(cont-1), "Novato"));
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_pokegrupos.getModel();
+        modelo.addElement(grupos.get(grupos.size()-1));
+        cb_pokegrupos.setModel(modelo);
+        
+                
+    }//GEN-LAST:event_jButton6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -707,10 +842,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTree jTree1;
     private javax.swing.JTextField j_usuario;
     private javax.swing.JButton jb_color;
-    private javax.swing.JList<String> jl_miembros;
+    private javax.swing.JTree jt_pokemon;
+    private javax.swing.JList<String> lista_miembros;
     private javax.swing.JTextField tf_apellido;
     private javax.swing.JPasswordField tf_contra;
     private javax.swing.JTextField tf_contraR;
