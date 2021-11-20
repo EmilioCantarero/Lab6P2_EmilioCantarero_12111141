@@ -18,7 +18,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-
+        Registro.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        Usuario.setDefaultCloseOperation(EXIT_ON_CLOSE);
         grupos.add(new PokeGrupo("PokeCholos", new Date(), new Usuario("Leo", "Suarez", "Leito", "L123", new Date(100, 6, 15), Color.GREEN), "Novato"));
 
         this.setLocationRelativeTo(null);
@@ -110,6 +111,7 @@ public class Login extends javax.swing.JFrame {
         jRadioButton5 = new javax.swing.JRadioButton();
         jRadioButton6 = new javax.swing.JRadioButton();
         jRadioButton7 = new javax.swing.JRadioButton();
+        jButton8 = new javax.swing.JButton();
         Velocidad = new javax.swing.ButtonGroup();
         Tipo = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
@@ -500,6 +502,13 @@ public class Login extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Pokemones", jPanel4);
 
+        jButton8.setText("Cerrar Sesion");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -511,7 +520,9 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(j_usuario)))
+                        .addComponent(j_usuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -520,7 +531,8 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(j_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(j_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8))
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
@@ -637,7 +649,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String n = tf_usuario.getText();
         String c = tf_contra.getText();
-
+        cont=0;
         for (Usuario t : usuarios) {
 
             if (n.equals(t.getN_Usuario()) && c.equals(t.getContraseña())) {
@@ -648,19 +660,29 @@ public class Login extends javax.swing.JFrame {
                 Usuario.setVisible(true);
                 Usuario.setLocationRelativeTo(this);
                 j_usuario.setText(t.getNombre() + " " + t.getApellido());
-                tf_nPoke.setText(grupos.get(0).getNombre());
-                DefaultListModel modelo1 = (DefaultListModel) lista_miembros.getModel();
-                PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
-                for (Usuario m : p.getMiembros()) {
-                    modelo1.addElement(m.getNombre() + " " + m.getApellido());
+                if ((t.equals(usuarios.get(0)) || (t.equals(usuarios.get(1))))) {
+                    tf_nPoke.setText(grupos.get(0).getNombre());
+                    DefaultListModel modelo1 = (DefaultListModel) lista_miembros.getModel();
+                    PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
+                    for (Usuario m : p.getMiembros()) {
+                        modelo1.addElement(m.getNombre() + " " + m.getApellido());
+                    }
+                    modelo1.addElement(p.getLider() + "(Lider)");
+                    lista_miembros.setModel(modelo1);
+                    
+                       
+                }else{
+                    usuarios.get(usuarios.size()-1).setGrupo(false);
+                    tf_nPoke.setText("");
+                    DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
+                    listModel.removeAllElements();
                 }
-                modelo1.addElement(p.getLider() + "(Lider)");
-                lista_miembros.setModel(modelo1);
-                break;
-            }
 
+                    break;
+                }
             cont++;
         }
+    
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void j_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_j_usuarioActionPerformed
@@ -700,7 +722,7 @@ public class Login extends javax.swing.JFrame {
         tf_apellido.setText("");
         dt_fecha.setDate(null);
         jb_color.setBackground(null);
-
+        usuarios.get(usuarios.size() - 1).setGrupo(false);
 
     }//GEN-LAST:event_jButton4MouseClicked
 
@@ -720,8 +742,7 @@ public class Login extends javax.swing.JFrame {
          * p=(PokeGrupo)cb_pokegrupos.getSelectedItem(); for (Usuario m :
          * p.getMiembros()) { modelo1.addElement(m.getNombre()+ " " +
          * m.getApellido()); } modelo1.addElement(p.getLider()+"(Lider)" );
-         * lista_miembros.setModel(modelo1);
-        }
+         * lista_miembros.setModel(modelo1); }
          */
     }//GEN-LAST:event_cb_pokegruposItemStateChanged
 
@@ -747,40 +768,45 @@ public class Login extends javax.swing.JFrame {
             lista_miembros.setModel(modelo);
             tf_nPoke.setText(cb_pokegrupos.getSelectedItem().toString());
             usuarios.get(cont).setGrupo(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Usted ya se encuentra en un grupo");
         }
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
-        PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
-        p.getMiembros().remove(usuarios.get(cont));
+        if (usuarios.get(cont).isGrupo()==false){
+            PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
+            p.getMiembros().remove(usuarios.get(cont));
 
-        String nombre = tf_pokeC.getText();
-        grupos.add(new PokeGrupo(nombre, new Date(), usuarios.get(cont), "Novato"));
-        DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_pokegrupos.getModel();
-        modelo.addElement(grupos.get(grupos.size() - 1));
-        cb_pokegrupos.setModel(modelo);
+            String nombre = tf_pokeC.getText();
+            grupos.add(new PokeGrupo(nombre, new Date(), usuarios.get(cont), "Novato"));
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_pokegrupos.getModel();
+            modelo.addElement(grupos.get(grupos.size() - 1));
+            cb_pokegrupos.setModel(modelo);
 
-        grupos.get(grupos.size()-1).getMiembros().add(usuarios.get(cont));
-        DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
-        listModel.removeAllElements();
-        DefaultListModel modelo2 = (DefaultListModel) lista_miembros.getModel();
-        modelo2.addElement(usuarios.get(cont) + " " + "(Lider)");
-        lista_miembros.setModel(modelo2);
-        tf_nPoke.setText(tf_pokeC.getText());
-        tf_pokeC.setText("");
-        cb_pokegrupos.setSelectedItem(grupos.size() - 1);
-        usuarios.get(cont).setGrupo(true);
+            grupos.get(grupos.size() - 1).getMiembros().add(usuarios.get(cont));
+            DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
+            listModel.removeAllElements();
+            DefaultListModel modelo2 = (DefaultListModel) lista_miembros.getModel();
+            modelo2.addElement(usuarios.get(cont) + " " + "(Lider)");
+            lista_miembros.setModel(modelo2);
+            tf_nPoke.setText(tf_pokeC.getText());
+            tf_pokeC.setText("");
+            cb_pokegrupos.setSelectedItem(grupos.size() - 1);
+            usuarios.get(cont).setGrupo(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Usted ya se encuentra en un grupo");
+            tf_pokeC.setText("");
+        }
     }//GEN-LAST:event_jButton6MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         if (usuarios.get(cont).isGrupo() == true) {
-            
+
             PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
-            if (p.getMiembros().contains(usuarios.get(cont))){
+            if (p.getMiembros().contains(usuarios.get(cont))) {
                 p.getMiembros().remove(usuarios.get(cont));
                 DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
                 listModel.removeAllElements();
@@ -793,13 +819,21 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Has salido del PokeGrupo");
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Usted no se encuentra en este grupo");
-            }    
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Usted no se encuentra en un grupo");
         }
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        // TODO add your handling code here:
+        Usuario.setVisible(false);
+        this.setVisible(true);
+        tf_usuario.setText("");
+        tf_contra.setText("");
+    }//GEN-LAST:event_jButton8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -856,6 +890,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
