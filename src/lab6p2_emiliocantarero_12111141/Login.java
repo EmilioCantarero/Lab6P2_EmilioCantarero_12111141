@@ -271,6 +271,11 @@ public class Login extends javax.swing.JFrame {
         });
 
         jButton3.setText("Salir del PokeGrupo");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jLabel12.setText("Unirme a un Pokegrupo");
 
@@ -653,7 +658,8 @@ public class Login extends javax.swing.JFrame {
                 }
                 modelo1.addElement(p.getLider()+"(Lider)" );
                 lista_miembros.setModel(modelo1);
-                }
+                break;
+            }
         
             cont++;
         }
@@ -730,24 +736,52 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         // TODO add your handling code here:
-        PokeGrupo p=(PokeGrupo)cb_pokegrupos.getSelectedItem();
-        p.getMiembros().add(usuarios.get(cont-1));
-        lista_miembros.removeAll();
-        DefaultListModel modelo2=(DefaultListModel)lista_miembros.getModel();
-                modelo2.addElement(usuarios.get(cont-2) + " " + "(Lider)");
-                lista_miembros.setModel(modelo2);
+        PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
+        p.getMiembros().add(usuarios.get(cont));
+        DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
+        listModel.removeAllElements();
+        DefaultListModel modelo = (DefaultListModel) lista_miembros.getModel();
+        for (Usuario u : p.getMiembros()) {
+            modelo.addElement(u.getNombre() + u.getApellido());
+        }
+        modelo.addElement(p.getLider()+"(Lider)" );
+        lista_miembros.setModel(modelo);
+        tf_nPoke.setText(cb_pokegrupos.getSelectedItem().toString());
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
+        PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
+        p.getMiembros().remove(usuarios.get(cont));
+        
         String nombre=tf_pokeC.getText();
-        grupos.add(new PokeGrupo(nombre, new Date(), usuarios.get(cont-1), "Novato"));
+        grupos.add(new PokeGrupo(nombre, new Date(), usuarios.get(cont), "Novato"));
         DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_pokegrupos.getModel();
         modelo.addElement(grupos.get(grupos.size()-1));
         cb_pokegrupos.setModel(modelo);
         
+        DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
+        listModel.removeAllElements();
+        DefaultListModel modelo2 = (DefaultListModel) lista_miembros.getModel();
+        modelo2.addElement(usuarios.get(cont) + " " + "(Lider)");
+        lista_miembros.setModel(modelo2);
+        tf_nPoke.setText(tf_pokeC.getText());
                 
     }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        PokeGrupo p = (PokeGrupo) cb_pokegrupos.getSelectedItem();
+        p.getMiembros().remove(usuarios.get(cont));
+        DefaultListModel listModel = (DefaultListModel) lista_miembros.getModel();
+        listModel.removeAllElements();
+        tf_nPoke.setText("");
+        
+        if (p.getMiembros().isEmpty()){
+            grupos.remove(p);
+            JOptionPane.showMessageDialog(this, "El PokeGrupo fue eliminado");
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
